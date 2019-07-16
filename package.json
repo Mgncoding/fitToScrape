@@ -1,0 +1,29 @@
+{
+  "name": "fittoscrape",
+  "version": "1.0.0",
+  "description": "Scraping a Website for Information",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongoose": "^5.6.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mgncoding/fitToScrape.git"
+  },
+  "author": "Michael Nault",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mgncoding/fitToScrape/issues"
+  },
+  "homepage": "https://github.com/Mgncoding/fitToScrape#readme"
+}
