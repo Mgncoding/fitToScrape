@@ -1,0 +1,64 @@
+body {
+    /* background-image: url("/assets/images/background.jpg"); */
+    padding-top: 70px;
+}
+
+.deleteNote {
+	display: inline-block;
+}
+
+.previousNotes {
+    display: inline-block;
+    width: 90%
+}
+
+#scrape {
+    margin: 8px 0px;
+}
+.image{
+    float: left;
+    margin-right: 15px;
+}
+
+.btn-styling{
+    float: right;
+    margin-top: -30px;
+    
+}
+
+.title{
+    margin-right: 15%;
+    font-weight: bold !important;
+    color: rgb(8, 53, 80);
+    
+}
+.title-saved{
+   
+    font-weight: bold !important;
+    color: rgb(8, 53, 80);
+    
+}
+.banner{
+    background-image: url("../images/banner.png");
+    background-size:cover;
+    background-position: center;
+    height: 440px;
+    background-position-y: 0px;
+}
+
+.saved-banner{
+    background-image: url("../images/banner2.png");
+    background-size:cover;
+    background-position: center;
+    height: 250px;
+    background-position-y: 0px;
+    color: rgb(255, 255, 255);
+  
+}
+.saved-title{
+    font-family: 'Catamaran', sans-serif;
+    font-weight: bold;
+    text-shadow: 2px 2px #505050;
+    font-size: 50px;
+    margin-top: -30px;
+}
