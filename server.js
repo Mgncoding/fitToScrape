@@ -30,7 +30,7 @@ const app = express();
 //use morgan and body parser with our app
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 
 // Make public static dir
