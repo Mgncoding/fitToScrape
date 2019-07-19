@@ -65,8 +65,6 @@ db.once("open", function () {
     console.log("Mongoose connection successful.");
 });
 
-// Routes
-// ==========
 
 // GET requests to render Handlebars pages
 
@@ -96,35 +94,31 @@ app.get("/scrape", function (req, res) {
     axios.get("https://techcrunch.com/").then(function (response) {
         // Load the html body from axios into cheerio
         var $ = cheerio.load(response.data);
-        // console.log('this is cheerio '+ response.data);
-        // For each element with a "article" class we grab a h2 within that element
+        
+        // For each element with a "article" class 
         $(".post-block").each(function (i, element) {
             // Save an empty result object
             var result = {};
             
-            //Add the title and summary of every link, and save them as properties
-            //of the result object
+            
             result.title = $(this).children(".post-block__header").children("h2").children("a").text().trim();
-            // console.log(result.title.trim());
-            //.post-block__content
+            
             result.summary = $(this).children(".post-block__content").text().trim();
             result.link = $(this).children(".post-block__header").children("h2").children("a").attr("href");
             result.imgUrl= $(this).children(".post-block__footer").children(".post-block__media").children("a").children("img").attr("src");
             // console.log( result);
-            //Using our Articlemodel, create a new entry
-            //This effectively passes the result object to the entry 
-            //(and the title and link)
+          
             var entry = new Article(result);
 
             // Now, save that entry to the db
             entry.save(function (err, doc) {
-                //Log any errors
+               
 
                 if (err) {
                   
                     console.log(err);
                 }
-                //or log the doc
+                
                 else {
                     console.log("This is doc: "+ doc);
                 }
@@ -133,7 +127,7 @@ app.get("/scrape", function (req, res) {
         });
         res.send("Scrape Complete");
     });
-    // Tell the browser that we finished scraping the text 
+   
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -141,7 +135,7 @@ app.get("/scrape", function (req, res) {
 app.get("/articles", function (req, res) {
     //Grab every doc in the Articles array
     Article.find({}, function (error, doc) {
-        //log any errors
+        
         if (error) {
             console.log(error);
         }
@@ -153,18 +147,17 @@ app.get("/articles", function (req, res) {
 
 //Grab an article by it's ObjectId
 app.get("/articles/:id", function(req,res){
-    //Using the id passed in the id parameter, prepare a query that finds 
-    //the matching one in our db ..
+
     Article.findOne({"_id": req.params.id})
     //.. and populate all of the notes associated with it  "notes"
     .populate("note")
-    // now, execute our query
+   
     .exec(function(error,doc){
-        //log any errors
+        
         if(error){
             console.log(error);
         }
-//otherwise, send the doc to the browser as a json object
+
         else {
             res.json(doc);
         }
@@ -176,14 +169,14 @@ app.get("/articles/:id", function(req,res){
 app.post("/articles/save/:id", function(req,res){
     //Use the article id to find an update its saved boolean
 Article.findOneAndUpdate({"_id": req.params.id}, {"saved":true})
-//execute the above query
+
 .exec(function(err,doc){
-    // log any errors
+   
     if (err){
         console.log(err);
     }
     else{
-        //send the document to the browser
+     
         res.send(doc);
     }
 });
@@ -193,14 +186,14 @@ Article.findOneAndUpdate({"_id": req.params.id}, {"saved":true})
 app.post("/articles/delete/:id", function(req,res){
     //Use the article id to find and update its saved boolean
     Article.findOneAndUpdate({"_id": req.params.id}, {"saved":false, "notes":[]})
-    //Execute the above query
+   
     .exec(function(err,doc){
-        //Log any errors
+       
         if (err){
             console.log(err);
         }
         else{
-            //Or send the document to the browser
+         
             res.send(doc);
         }
     });
@@ -216,23 +209,23 @@ app.post("/notes/save/:id", function(req, res){
     console.log(req.body);
     //And save the new note to the db
     newNote.save(function(error,note){
-        //Log any errors
+      
         if(error){
             console.log(error);
         }
-        //Otherwise
+       
         else{
             //Use the article id to find and update its notes
             Article.findOneAndUpdate({"_id": req.params.id}, {$push: {"notes":note} })
             // Execute teh above query
             .exec(function(err){
-                //Log any errors
+               
                 if (err){
                     console.log(err);
                     res.send(err);
                 }
                 else {
-                    //Or send the note to the browser
+                    
                     res.send(note);
                 }
             });
@@ -244,7 +237,7 @@ app.post("/notes/save/:id", function(req, res){
 app.delete("/notes/delete/:note_id/:article_id", function(req,res){
     //Use the note id to find and delete it
     Note.findOneAndRemove({"_id": req.params.note_id}, function(err){
-        //Log any errors
+        
         if (err){
             console.log(err);
             res.send(err);
@@ -257,7 +250,7 @@ app.delete("/notes/delete/:note_id/:article_id", function(req,res){
                     res.send(err);
                 }
                 else{
-                    //or send the note to the browser
+                  
                     res.send("Note Deleted");
                 }
             });
